@@ -35,6 +35,7 @@ export default class NewPresenter {
         return;
       }
 
+
       this.#view.storeSuccessfully(response.message, response.data);
     } catch (error) {
       console.error('postNewStory: error:', error);
@@ -43,4 +44,5 @@ export default class NewPresenter {
       this.#view.hideSubmitLoadingButton();
     }
   }
+
 }
