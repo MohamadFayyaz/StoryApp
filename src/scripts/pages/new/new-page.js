@@ -280,7 +280,7 @@ export default class NewPage {
     const accessToken = getAccessToken();
     // Redirect page
     if (accessToken) {
-      location.href = '/';
+      location.href = '#/';
     } else {
       location.reload()
       alert(message);

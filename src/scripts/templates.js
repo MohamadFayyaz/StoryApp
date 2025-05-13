@@ -117,7 +117,7 @@ export function generateStoryItemTemplate({
         </div>
         <div class="story-item__more-info">
           <div class="story-item__author">
-            Dilaporkan oleh: ${reporterName}
+            Dibuat oleh: ${reporterName}
           </div>
         </div>
       </div>
