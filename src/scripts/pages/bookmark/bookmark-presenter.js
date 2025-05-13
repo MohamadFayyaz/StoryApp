@@ -1,4 +1,6 @@
-export default class HomePresenter {
+import { reportMapper } from '../../data/api-mapper';
+
+export default class BookmarkPresenter {
   #view;
   #apiModel;
   #dbModel;
@@ -7,25 +9,6 @@ export default class HomePresenter {
     this.#view = view;
     this.#apiModel = apiModel;
     this.#dbModel = dbModel;
-  }
-
-  async initialGalleryAndMap() {
-    this.#view.showLoading();
-    try {
-      await this.showReportsListMap();
-      const response = await this.#apiModel.getAllStories();
-
-      if (!response.ok) {
-        this.#view.populateReportsListError(response.message);
-        return;
-      }
-
-      this.#view.populateReportsList(response.message, response.listStory);
-    } catch (error) {
-      this.#view.populateReportsListError(error.message);
-    } finally {
-      this.#view.hideLoading();
-    }
   }
 
   async showReportsListMap() {
@@ -38,6 +21,27 @@ export default class HomePresenter {
       this.#view.hideMapLoading();
     }
   }
+
+  async initialGalleryAndMap() {
+    this.#view.showReportsListLoading();
+
+    try {
+      await this.showReportsListMap();
+
+      const listOfReports = await this.#dbModel.getAllStories();
+      const reports = await Promise.all(listOfReports.map(reportMapper));
+
+      console.log(reports);
+      const message = 'Berhasil mendapatkan daftar laporan tersimpan.';
+      this.#view.populateBookmarkedReports(message, reports);
+    } catch (error) {
+      console.error('initialGalleryAndMap: error:', error);
+      this.#view.populateBookmarkedReportsError(error.message);
+    } finally {
+      this.#view.hideReportsListLoading();
+    }
+  }
+
 
   async showSaveButton(containerId, storyId) {
     const isSaved = await this.#isStorySaved(storyId);

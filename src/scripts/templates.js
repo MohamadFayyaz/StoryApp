@@ -14,13 +14,15 @@ export function generateLoaderAbsoluteTemplate() {
 
 export function generateMainNavigationListTemplate() {
   return `
+    <li><a id="story-list-button" class="story-list-button" href="#/">Daftar Cerita</a></li>
+    <li><a id="bookmark-button" class="bookmark-button" href="#/bookmark">Cerita Tersimpan</a></li>
   `;
 }
 
 export function generateUnauthenticatedNavigationListTemplate() {
   return `
     <li id="push-notification-tools" class="push-notification-tools"></li>
-    <li><a id="new-report-button" class="btn new-report-button" href="#/new">Buat Cerita <i class="fas fa-plus"></i></a></li>
+    <li><a id="new-story-button" class="btn new-story-button" href="#/new">Buat Cerita <i class="fas fa-plus"></i></a></li>
     <li><a id="login-button" href="#/login">Login</a></li>
     <li><a id="register-button" href="#/register">Register</a></li>
   `;
@@ -34,28 +36,28 @@ export function generateAuthenticatedNavigationListTemplate() {
   `;
 }
 
-export function generateReportsListEmptyTemplate() {
+export function generateStoriesListEmptyTemplate() {
   return `
-    <div id="reports-list-empty" class="reports-list__empty">
-      <h2>Tidak ada laporan yang tersedia</h2>
-      <p>Saat ini, tidak ada laporan kerusakan fasilitas umum yang dapat ditampilkan.</p>
+    <div id="stories-list-empty" class="stories-list__empty">
+      <h2>Tidak ada cerita yang tersedia</h2>
+      <p>Saat ini, tidak ada cerita kerusakan fasilitas umum yang dapat ditampilkan.</p>
     </div>
   `;
 }
 
-export function generateReportsListErrorTemplate(message) {
+export function generateStoriesListErrorTemplate(message) {
   return `
-    <div id="reports-list-error" class="reports-list__error">
-      <h2>Terjadi kesalahan pengambilan daftar laporan</h2>
+    <div id="stories-list-error" class="stories-list__error">
+      <h2>Terjadi kesalahan pengambilan daftar cerita</h2>
       <p>${message ? message : 'Gunakan jaringan lain atau laporkan error ini.'}</p>
     </div>
   `;
 }
 
-export function generateReportDetailErrorTemplate(message) {
+export function generateStoryDetailErrorTemplate(message) {
   return `
-    <div id="reports-detail-error" class="reports-detail__error">
-      <h2>Terjadi kesalahan pengambilan detail laporan</h2>
+    <div id="stories-detail-error" class="stories-detail__error">
+      <h2>Terjadi kesalahan pengambilan detail cerita</h2>
       <p>${message ? message : 'Gunakan jaringan lain atau laporkan error ini.'}</p>
     </div>
   `;
@@ -283,18 +285,18 @@ export function generateUnsubscribeButtonTemplate() {
   `;
 }
 
-export function generateSaveReportButtonTemplate() {
+export function generateSaveStoryButtonTemplate() {
   return `
-    <button id="report-detail-save" class="btn btn-transparent">
-      Simpan laporan <i class="far fa-bookmark"></i>
+    <button id="story-detail-save" class="btn btn-transparent">
+      Simpan Cerita <i class="far fa-bookmark"></i>
     </button>
   `;
 }
 
-export function generateRemoveReportButtonTemplate() {
+export function generateRemoveStoryButtonTemplate() {
   return `
-    <button id="report-detail-remove" class="btn btn-transparent">
-      Buang laporan <i class="fas fa-bookmark"></i>
+    <button id="story-detail-remove" class="btn btn-transparent">
+      Buang Cerita <i class="fas fa-bookmark"></i>
     </button>
   `;
 }

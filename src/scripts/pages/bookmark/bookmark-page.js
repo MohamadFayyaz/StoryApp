@@ -6,12 +6,12 @@ import {
   generateSaveStoryButtonTemplate,
   generateRemoveStoryButtonTemplate,
 } from '../../templates';
-import HomePresenter from './home-presenter';
+import BookmarkPresenter from './bookmark-presenter';
+import Database from '../../data/database';
 import Map from '../../utils/map';
 import * as StoryAppAPI from '../../data/api';
-import Database from '../../data/database';
 
-export default class HomePage {
+export default class BookmarkPage {
   #presenter = null;
   #map = null;
 
@@ -23,10 +23,10 @@ export default class HomePage {
           <div id="map-loading-container"></div>
         </div>
       </section>
-
+ 
       <section class="container">
-        <h1 class="section-title">Daftar Cerita</h1>
-
+        <h1 class="section-title">Daftar Cerita Tersimpan</h1>
+ 
         <div class="stories-list__container">
           <div id="stories-list"></div>
           <div id="stories-list-loading-container"></div>
@@ -36,22 +36,22 @@ export default class HomePage {
   }
 
   async afterRender() {
-    this.#presenter = new HomePresenter({
+    this.#presenter = new BookmarkPresenter({
       view: this,
       apiModel: StoryAppAPI,
       dbModel: Database,
     });
-
     await this.#presenter.initialGalleryAndMap();
   }
 
-  populateReportsList(message, reports) {
+  populateBookmarkedReports(message, reports) {
     if (reports.length <= 0) {
-      this.populateReportsListEmpty();
+      this.populateBookmarkedReportsListEmpty();
       return;
     }
 
     const html = reports.reduce((accumulator, report) => {
+      console.log(report);
       const hasValidCoordinates =
         report && report.lat != null && report.lon != null;
 
@@ -84,37 +84,36 @@ export default class HomePage {
     });
   }
 
-  populateReportsListEmpty() {
-    document.getElementById('stories-list').innerHTML = generateStoriesListEmptyTemplate();
-  }
-
-  populateReportsListError(message) {
-    document.getElementById('stories-list').innerHTML = generateStoriesListErrorTemplate(message);
-  }
-
   async initialMap() {
     this.#map = await Map.build('#map', {
       zoom: 10,
       locate: true,
     });
   }
-
   showMapLoading() {
     document.getElementById('map-loading-container').innerHTML = generateLoaderAbsoluteTemplate();
   }
-
   hideMapLoading() {
     document.getElementById('map-loading-container').innerHTML = '';
   }
 
-  showLoading() {
+  populateBookmarkedReportsListEmpty() {
+    document.getElementById('stories-list').innerHTML = generateStoriesListEmptyTemplate();
+  }
+
+  populateBookmarkedReportsError(message) {
+    document.getElementById('stories-list').innerHTML = generateStoriesListErrorTemplate(message);
+  }
+
+  showReportsListLoading() {
     document.getElementById('stories-list-loading-container').innerHTML =
       generateLoaderAbsoluteTemplate();
   }
 
-  hideLoading() {
+  hideReportsListLoading() {
     document.getElementById('stories-list-loading-container').innerHTML = '';
   }
+
 
   renderSaveButton(containerId, storyId) {
     const container = document.querySelector(containerId);

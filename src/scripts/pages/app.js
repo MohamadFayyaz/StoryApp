@@ -103,15 +103,13 @@ class App {
 
   async renderPage() {
     const url = getActiveRoute();
-    const route = routes[url];
+    const routeHandler = routes[url] || routes['*'];
 
+    let page = routeHandler();
 
-    // Get page instance
-    const page = route();
-
-    if (!page) {
-      console.warn(`Halaman untuk ${url} tidak dirender karena checkRoute mengembalikan null`);
-      return;
+    if (!page || typeof page.render !== 'function') {
+      console.warn(`Route "${url}" tidak valid. Menampilkan halaman Not Found.`);
+      page = routes['*']();
     }
 
     const transition = transitionHelper({

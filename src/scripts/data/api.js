@@ -8,6 +8,7 @@ const ENDPOINTS = {
 
   // Story
   stories: `${CONFIG.BASE_URL}/stories`,
+  story_detail: (id) => `${CONFIG.BASE_URL}/stories/${id}`,
   storiesGuest: `${CONFIG.BASE_URL}/stories/guest`,
 
   // notif
@@ -112,6 +113,20 @@ export async function storeNewStory({
 export async function getData() {
   const fetchResponse = await fetch(ENDPOINTS.ENDPOINT);
   return await fetchResponse.json();
+}
+
+export async function getStoryById(id) {
+  const accessToken = getAccessToken();
+
+  const fetchResponse = await fetch(ENDPOINTS.story_detail(id), {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const json = await fetchResponse.json();
+
+  return {
+    ...json,
+    ok: fetchResponse.ok,
+  };
 }
 
 export async function subscribePushNotification({ endpoint, keys: { p256dh, auth } }) {
